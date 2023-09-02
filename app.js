@@ -71,7 +71,11 @@ app.post("/todos", (req, res) => {
 // API 4: Update a specific todo by ID
 app.put("/todos/:todoId", (req, res) => {
   const { todoId } = req.params;
-  const { status, priority, todo } = req.body;
+  const {
+    todo = previousTodo.todo,
+    status = previousTodo.status,
+    priority = previousTodo.priority,
+  } = request.body;
   const updates = [];
 
   if (status) {
@@ -84,7 +88,7 @@ app.put("/todos/:todoId", (req, res) => {
     updates.push(`todo = '${todo}'`);
   }
 
-  if (updates.length === 0) {
+  if (updates.length == 0) {
     res.status(400).json({ error: "No valid updates provided" });
     return;
   }
